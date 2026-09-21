@@ -1,0 +1,373 @@
+/* ==========================================================================
+   My Green Notes - Visual Stylesheet & Design System
+   ========================================================================== */
+
+/* Root Variables & Color Tokens */
+:root {
+    --bg-gradient-start: #8ae4c9;
+    --bg-gradient-mid: #6bd7b6;
+    --bg-gradient-end: #40bfa0;
+    
+    --glass-bg: rgba(235, 252, 246, 0.62);
+    --glass-bg-hover: rgba(245, 255, 251, 0.78);
+    --glass-border: rgba(255, 255, 255, 0.65);
+    
+    --active-green-border: #169b66;
+    --active-green-glow: rgba(22, 155, 102, 0.35);
+    
+    --emerald-primary: #0fa968;
+    --emerald-hover: #0c8c56;
+    --emerald-light: #e6f9f1;
+    
+    --text-primary: #1e3a34;
+    --text-muted: #436e63;
+    
+    --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    
+    --card-radius: 18px;
+    --shadow-glass: 0 8px 32px 0 rgba(19, 87, 66, 0.08);
+}
+
+/* Global Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+}
+
+.max-w-container {
+    max-width: 1320px;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6, .app-title {
+    font-family: var(--font-heading);
+}
+
+/* Navbar Navigation */
+.navbar .nav-link {
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 1.05rem;
+    padding: 0.4rem 0.8rem;
+    transition: color 0.2s ease, opacity 0.2s ease;
+    opacity: 0.85;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: #0c4d36;
+    opacity: 1;
+    font-weight: 600;
+}
+
+/* Glass Header Banner */
+.glass-banner {
+    background: rgba(230, 248, 241, 0.48);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: none;
+    border-radius: 20px;
+    box-shadow: var(--shadow-glass);
+}
+
+.app-title {
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: #174235;
+    letter-spacing: -0.5px;
+}
+
+/* Search Bar Input */
+.search-box-wrapper .search-icon {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    z-index: 5;
+}
+
+.search-input {
+    background: rgba(225, 246, 238, 0.55) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: none !important;
+    border-radius: 30px !important;
+    height: 48px;
+    font-size: 1rem;
+    color: var(--text-primary) !important;
+    box-shadow: 0 4px 15px rgba(22, 155, 102, 0.08);
+    transition: all 0.25s ease;
+}
+
+.search-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.85;
+}
+
+.search-input:focus {
+    background: rgba(240, 253, 248, 0.85) !important;
+    box-shadow: 0 0 0 0.25rem rgba(15, 169, 104, 0.25) !important;
+    outline: none;
+}
+
+/* Category Filter Chips */
+.category-chips .chip {
+    background: rgba(235, 252, 246, 0.5);
+    border: none;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    user-select: none;
+}
+
+.category-chips .chip:hover {
+    background: rgba(245, 255, 251, 0.85);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(19, 87, 66, 0.08);
+}
+
+.category-chips .chip:active {
+    transform: scale(0.92);
+}
+
+.category-chips .chip.active {
+    background: var(--emerald-primary);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(15, 169, 104, 0.35);
+    transform: scale(1.05);
+}
+
+/* Category Transition Animations */
+@keyframes noteCardEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(24px) scale(0.94);
+    }
+    60% {
+        opacity: 0.85;
+        transform: translateY(-4px) scale(1.01);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes noteCardExit {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-16px) scale(0.95);
+    }
+}
+
+.note-col-animate {
+    animation: noteCardEntrance 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.notes-grid-exiting .note-col-animate {
+    animation: noteCardExit 0.2s cubic-bezier(0.7, 0, 0.84, 0) both !important;
+}
+
+/* Note Cards & Glassmorphism */
+.note-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: none;
+    border-radius: var(--card-radius);
+    padding: 1.5rem;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: var(--shadow-glass);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.note-card:hover {
+    transform: translateY(-5px);
+    background: var(--glass-bg-hover);
+    box-shadow: 0 14px 35px 0 rgba(19, 87, 66, 0.14);
+}
+
+/* Highlighted / Active Card State */
+.note-card.active-card,
+.note-card:focus {
+    background: rgba(245, 255, 251, 0.88) !important;
+    box-shadow: 0 0 20px var(--active-green-glow), var(--shadow-glass) !important;
+}
+
+.note-card .card-header-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.note-card .note-title {
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: #174235;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.note-card .note-preview {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.note-card .card-footer-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    font-size: 0.8rem;
+}
+
+.note-card .category-badge {
+    background: rgba(15, 169, 104, 0.12);
+    color: #0c7246;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.note-card .note-date {
+    color: #4a7a6e;
+}
+
+/* Floating Action Button (FAB) */
+.fab-btn {
+    position: fixed;
+    bottom: 35px;
+    right: 35px;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: var(--emerald-primary);
+    color: #ffffff;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    box-shadow: 0 8px 24px rgba(15, 169, 104, 0.45);
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease, box-shadow 0.25s ease;
+}
+
+.fab-btn:hover {
+    background: var(--emerald-hover);
+    transform: scale(1.08) rotate(90deg);
+    box-shadow: 0 12px 30px rgba(15, 169, 104, 0.55);
+}
+
+.fab-btn:active {
+    transform: scale(0.95);
+}
+
+/* Modals & Glass Dialogs */
+.glass-modal {
+    background: rgba(240, 253, 248, 0.94) !important;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: none !important;
+    border-radius: 24px !important;
+    box-shadow: 0 20px 50px rgba(10, 50, 38, 0.2) !important;
+}
+
+.custom-modal-input {
+    background: rgba(255, 255, 255, 0.75) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    color: var(--text-primary) !important;
+    padding: 0.65rem 1rem;
+    box-shadow: 0 2px 8px rgba(15, 169, 104, 0.08);
+    transition: all 0.2s ease;
+}
+
+.custom-modal-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(15, 169, 104, 0.25) !important;
+    background: #ffffff !important;
+}
+
+/* Modal Popup Opening Animation */
+.modal.fade .modal-dialog {
+    transform: scale(0.82) translateY(35px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease;
+}
+
+.modal.show .modal-dialog {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+#aboutModal.show .modal-content {
+    animation: aboutSpring 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes aboutSpring {
+    0% { transform: scale(0.8) rotate(-2deg); opacity: 0; }
+    70% { transform: scale(1.04) rotate(0.5deg); opacity: 0.95; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Empty State Styling */
+.glass-card {
+    background: rgba(235, 252, 246, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .app-title {
+        font-size: 1.75rem;
+    }
+    .fab-btn {
+        bottom: 22px;
+        right: 22px;
+        width: 54px;
+        height: 54px;
+        font-size: 1.5rem;
+    }
+    .note-card {
+        min-height: 190px;
+        padding: 1.2rem;
+    }
+}

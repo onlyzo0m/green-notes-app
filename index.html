@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Green Notes - Beautiful & Smart Note Taking</title>
+    <meta name="description" content="A responsive, glassmorphism notebook web application with real-time search, category filtering, and local storage support.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    
+    <!-- Custom Style CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Top Navigation Header -->
+    <header class="navbar navbar-expand border-0 pt-3 pb-0 px-4">
+        <div class="container-fluid max-w-container">
+            <nav class="nav">
+                <a class="nav-link active me-3" href="#" id="navHome">Home</a>
+                <a class="nav-link me-3" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container-fluid max-w-container py-3">
+
+        <!-- App Main Title Card -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-12 col-md-10 col-lg-8">
+                <div class="glass-banner text-center py-3 px-4 shadow-sm">
+                    <h1 class="app-title m-0">My Green Notes</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Bar Section -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-12 col-md-8 col-lg-5">
+                <div class="search-box-wrapper position-relative">
+                    <i class="bi bi-search search-icon position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                    <input type="text" id="searchInput" class="form-control search-input ps-5 pe-4" placeholder="Search Notes..." aria-label="Search Notes">
+                    <button class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 text-secondary d-none" id="clearSearchBtn" type="button">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-12 text-center">
+                <div class="category-chips d-inline-flex flex-wrap justify-content-center gap-2" id="categoryChips">
+                    <button class="chip active" data-category="all">All Notes</button>
+                    <button class="chip" data-category="Meeting Notes">Meeting Notes</button>
+                    <button class="chip" data-category="Project Ideas">Project Ideas</button>
+                    <button class="chip" data-category="Shopping List">Shopping List</button>
+                    <button class="chip" data-category="Personal">Personal</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Grid Container -->
+        <div class="row g-4" id="notesGrid">
+            <!-- Dynamic note cards rendered via script.js -->
+        </div>
+
+        <!-- Empty State UI -->
+        <div class="row justify-content-center d-none" id="emptyState">
+            <div class="col-12 col-md-6 text-center py-5">
+                <div class="glass-card p-5 rounded-4">
+                    <i class="bi bi-journal-x fs-1 text-success opacity-75 mb-3 d-block"></i>
+                    <h4 class="fw-semibold text-dark">No Notes Found</h4>
+                    <p class="text-secondary mb-4">You don't have any notes matching your search or filter criteria. Create your first note!</p>
+                    <button class="btn btn-emerald rounded-pill px-4 py-2" data-bs-toggle="modal" data-bs-target="#noteModal" id="emptyStateAddBtn">
+                        <i class="bi bi-plus-lg me-2"></i>Create New Note
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Floating Action Button (FAB) -->
+    <button class="fab-btn" id="fabAddBtn" data-bs-toggle="modal" data-bs-target="#noteModal" title="Add New Note" aria-label="Add New Note">
+        <i class="bi bi-plus-lg"></i>
+    </button>
+
+    <!-- Add / Edit Note Modal -->
+    <div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content glass-modal border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-dark" id="noteModalLabel">Create New Note</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-3">
+                    <form id="noteForm">
+                        <input type="hidden" id="noteId">
+                        
+                        <div class="mb-3">
+                            <label for="noteTitle" class="form-label fw-semibold text-secondary">Note Title</label>
+                            <input type="text" class="form-control custom-modal-input" id="noteTitle" placeholder="e.g. Meeting Notes, Shopping List..." required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="noteCategory" class="form-label fw-semibold text-secondary">Category</label>
+                            <select class="form-select custom-modal-input" id="noteCategory" required>
+                                <option value="Meeting Notes">Meeting Notes</option>
+                                <option value="Project Ideas">Project Ideas</option>
+                                <option value="Shopping List">Shopping List</option>
+                                <option value="Personal">Personal</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="noteContent" class="form-label fw-semibold text-secondary">Content</label>
+                            <textarea class="form-control custom-modal-input" id="noteContent" rows="6" placeholder="Type your note content here..." required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" form="noteForm" class="btn btn-emerald rounded-pill px-4">Save Note</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Full Note Detail Modal -->
+    <div class="modal fade" id="viewNoteModal" tabindex="-1" aria-labelledby="viewNoteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content glass-modal border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <span class="badge rounded-pill bg-success-subtle text-success me-2 px-3 py-2 fs-6" id="viewNoteCategory">Category</span>
+                    <small class="text-secondary ms-auto" id="viewNoteDate">Date</small>
+                    <button type="button" class="btn-close ms-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <h3 class="fw-bold text-dark mb-3" id="viewNoteTitle">Note Title</h3>
+                    <div class="note-full-text fs-6 text-dark opacity-90 lh-lg" id="viewNoteContent" style="white-space: pre-wrap;">
+                        Note Content...
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0 justify-content-between">
+                    <button type="button" class="btn btn-outline-danger rounded-pill px-4" id="viewDeleteBtn">Delete Note</button>
+                    <button type="button" class="btn btn-emerald rounded-pill px-4" id="viewEditBtn">Edit Note</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-modal border-0 shadow-lg">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold" id="aboutModalLabel">About My Green Notes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="mb-3">
+                        <span class="d-inline-block p-3 rounded-circle bg-success-subtle text-success fs-1">
+                            <i class="bi bi-journal-richtext"></i>
+                        </span>
+                    </div>
+                    <h4 class="fw-bold text-dark">My Green Notes App</h4>
+                    <p class="text-secondary small mb-3">Version 1.0.0</p>
+                    <p class="text-dark">A sleek, glassmorphic notebook application designed for capturing ideas, lists, and meeting notes seamlessly across all devices.</p>
+                    <div class="d-flex justify-content-center gap-2 mt-3">
+                        <span class="badge bg-light text-dark border">HTML5</span>
+                        <span class="badge bg-light text-dark border">CSS3</span>
+                        <span class="badge bg-light text-dark border">Bootstrap 5</span>
+                        <span class="badge bg-light text-dark border">JavaScript</span>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 justify-content-center">
+                    <button type="button" class="btn btn-emerald rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle with Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Application Script -->
+    <script src="script.js"></script>
+</body>
+</html>
